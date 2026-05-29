@@ -1,0 +1,20 @@
+services:
+  weather-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: weather-aggregator:latest
+    container_name: weather-api
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment:
+      OWM_API_KEY: ${OWM_API_KEY}
+      WEATHERAPI_KEY: ${WEATHERAPI_KEY}
+      REQUEST_TIMEOUT: ${REQUEST_TIMEOUT:-5.0}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
