@@ -8,7 +8,7 @@ Aplikacja przyjmuje zapytanie HTTP, zamienia nazwę miasta na współrzędne geo
 
 Obraz Docker wykorzystuje **multi-stage build** — w pierwszym etapie (`python:3.12-alpine`) pip instaluje zależności do osobnego prefixu, w drugim do finalnego obrazu trafiają tylko zainstalowane paczki i kod aplikacji. Bez cache pip, bez narzędzi buildowych. Kontener działa jako użytkownik non-root.
 
-Konfiguracja (klucze API, port, timeout) jest w pliku `.env`
+Konfiguracja (klucze API, port, timeout) jest w pliku `.env` — żadnych haseł zaszytych w kodzie.
 
 ## Architektura
 
@@ -16,17 +16,21 @@ Aplikacja składa się z jednego kontenera, w którym działa serwer ASGI **Uvic
 
 Stack: Python 3.12 (Alpine), FastAPI, Uvicorn, httpx, Pydantic. Konteneryzacja przez Docker z multi-stage buildem i orkiestracja przez Docker Compose. Konfiguracja wczytywana ze zmiennych środowiskowych (`.env`), z domyślnym healthcheckiem sprawdzającym endpoint `/health`.
 
-Komunikacja zewnętrzna: kontener nasłuchuje na porcie 8000 (mapowanym na port hosta z `APP_PORT`), a wychodzące zapytania HTTPS idą do trzech publicznych API pogodowych.
+Komunikacja zewnętrzna: kontener nasłuchuje na porcie 8000 (mapowanym na port hosta z `APP_PORT`), a wychodzące zapytania HTTPS idą do trzech publicznych API pogodowych. Brak bazy danych — aplikacja jest bezstanowa (każde zapytanie obsługiwane niezależnie).
 
 ## Uruchomienie
 
+```bash
 cp .env.example .env
 # Wklej swoje klucze API do .env
 docker compose up -d --build
+```
 
 Aplikacja: http://localhost:8000
 Dokumentacja (Swagger UI): http://localhost:8000/docs
 
 Zatrzymanie:
 
+```bash
 docker compose down
+```
