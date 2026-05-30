@@ -16,7 +16,7 @@ Aplikacja składa się z jednego kontenera, w którym działa serwer ASGI **Uvic
 
 Stack: Python 3.12 (Alpine), FastAPI, Uvicorn, httpx, Pydantic. Konteneryzacja przez Docker z multi-stage buildem i orkiestracja przez Docker Compose. Konfiguracja wczytywana ze zmiennych środowiskowych (`.env`), z domyślnym healthcheckiem sprawdzającym endpoint `/health`.
 
-Komunikacja zewnętrzna: kontener nasłuchuje na porcie 8000 (mapowanym na port hosta z `APP_PORT`), a wychodzące zapytania HTTPS idą do trzech publicznych API pogodowych. Brak bazy danych — aplikacja jest bezstanowa (każde zapytanie obsługiwane niezależnie).
+Komunikacja zewnętrzna: kontener nasłuchuje na porcie 8000 (mapowanym na port hosta z `APP_PORT`), a wychodzące zapytania HTTPS idą do trzech publicznych API pogodowych. 
 
 ## Uruchomienie
 
